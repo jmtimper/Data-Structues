@@ -65,4 +65,89 @@ public class ComparisonSorting {
         }
         return list;
     }
+
+    /**
+     * sorts list using merge sort algorithm
+     * @param list unsorted list
+     * @return sorted list
+     */
+    public int[] mergeSort(int[] list){
+
+        mergeSorting(list, 0, list.length-1);
+        return list;
+    }
+
+    /**
+     * recursive algorithm for breaking apart array
+     * @param list unsorted values
+     * @param left left bound of array
+     * @param right right bound of array
+     */
+    private void mergeSorting(int[] list, int left, int right){
+        if(left < right){
+            //find middle
+            int mid = left+(right-left)/2;
+
+            //separate array into halves
+            mergeSorting(list, left, mid);
+            mergeSorting(list, mid+1, right);
+
+            //merge array back together
+            merge(list, left, mid, right);
+        }
+
+    }
+
+    /**
+     * merges list back together
+     * @param list unsorted values
+     * @param left left bound of array
+     * @param mid middle of array
+     * @param right right bound of array
+     */
+    private void merge(int[] list, int left, int mid, int right){
+
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+
+        //temp arrays created
+        int[] L = new int[n1];
+        int[] R = new int[n2];
+
+        //copy data into subarrays
+        for(int i = 0; i < n1; i++)
+            L[i] = list[left + i];
+        for(int j = 0; j < n2; j++)
+            R[j] = list[mid + 1 + j];
+
+        //merge the temp arrays back into list
+        int i = 0; // initial index of first subarray
+        int j = 0; // initial index of second subarray
+        int k = left; // initial index of merged subarray
+        while(i < n1 && j < n2){
+            if(L[i] <= R[j]){
+                list[k] = L[i];
+                i++;
+            } else {
+                list[k] = R[j];
+                j++;
+            }
+            k++;
+        }
+
+        //copy remaining elements of L[]
+        while(i < n1){
+            list[k] = L[i];
+            i++;
+            k++;
+        }
+
+        //copy remaining elements of R[]
+        while(j < n2){
+            list[k] = R[j];
+            j++;
+            k++;
+        }
+    }
+
 }
